@@ -1,7 +1,7 @@
 package com.example.Nansy_server.service;
 
 import org.springframework.stereotype.Service;
-import com.example.Nansy_server.model.User;
+import com.example.Nansy_server.model.UserModel;
 
 import java.util.Optional;
 
@@ -20,22 +20,22 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public User createTestUser() {
-        User user = new User();
+    public UserModel createTestUser() {
+        UserModel user = new UserModel();
         user.setUsername("Ольга");
 
         return userRepository.save(user);
     }
 
-    public User getOrCreateUser(String username) {
-        Optional<User> existingUser = userRepository.findByUsername(username);
+    public UserModel getOrCreateUser(String username) {
+        Optional<UserModel> existingUser = userRepository.findByUsername(username);
 
         if (existingUser.isPresent()) { 
             System.out.println("Пользователь найден");
             return existingUser.get();
         }
 
-        User newUser = new User();
+        UserModel newUser = new UserModel();
         newUser.setUsername(username);
 
         return userRepository.save(newUser);

@@ -1,14 +1,14 @@
 package com.example.Nansy_server.dto;
 
-public class RequestToPC {
-    private String toPC;
+public class RequestToStationDto {
+    private String recipient;
     private String request;
 
-    public String getToPC() {
-        return toPC;
+    public String getRecipient() {
+        return recipient;
     }
-    public void setToPC(String toPC) {
-        this.toPC = toPC;
+    public void setToPC(String recipient) {
+        this.recipient = recipient;
     }
     public String getRequest() {
         return request;

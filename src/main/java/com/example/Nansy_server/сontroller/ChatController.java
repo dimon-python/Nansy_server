@@ -4,19 +4,29 @@ import org.springframework.stereotype.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import java.security.Principal;
-import com.example.Nansy_server.dto.RequestToPC;
+import com.example.Nansy_server.service.RequestToStationService;
+import com.example.Nansy_server.dto.RequestToStationDto;
 
 @Controller
 public class ChatController {
+
+    private final RequestToStationService requestToStationService;
+
     @Autowired
-    private SimpMessagingTemplate messagingTemplate;
+    public ChatController(RequestToStationService requestToStationService) {
+        this.requestToStationService = requestToStationService;
+    }
 
     @MessageMapping("/requestToPC")
-    public void requestToPC(@Payload RequestToPC request, Principal sender) {
-        String toPC = request.getToPC();
-        String requestToPC = request.getRequest();
+    public void requestToPC(@Payload RequestToStationDto request, Principal sender) {
+        String recipient = request.getRecipient();
+        String requestToStation = request.getRequest();
 
+        if (requestToStationService.isRecipientConnected(recipient)) {
+            requestToStationService.requestToStation(recipient, requestToStation);
+        } else {
+            requestToStationService.errorStationNotConnected(sender.getName());
+        }
     }
 }
