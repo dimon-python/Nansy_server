@@ -42,7 +42,7 @@ public class JwtUtil {
             .getSubject();
     }
 
-    public boolean nalidateToken(String token) {
+    public boolean validateToken(String token) {
         try {
             Jwts.parserBuilder().setSigningKey(getSingingKey()).build().parseClaimsJws(token);
             return true;

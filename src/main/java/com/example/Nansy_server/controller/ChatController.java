@@ -1,4 +1,4 @@
-package com.example.Nansy_server.сontroller;
+package com.example.Nansy_server.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,7 +6,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import java.security.Principal;
 import com.example.Nansy_server.service.RequestToStationService;
-import com.example.Nansy_server.dto.RequestToStationDto;
+import com.example.Nansy_server.dto.CommandRequest;
 
 @Controller
 public class ChatController {
@@ -19,12 +19,12 @@ public class ChatController {
     }
 
     @MessageMapping("/requestToPC")
-    public void requestToPC(@Payload RequestToStationDto request, Principal sender) {
+    public void requestToPC(@Payload CommandRequest request, Principal sender) {
         String recipient = request.getRecipient();
-        String requestToStation = request.getRequest();
+        String action = request.getAction();
 
         if (requestToStationService.isRecipientConnected(recipient)) {
-            requestToStationService.requestToStation(recipient, requestToStation);
+            requestToStationService.requestToStation(recipient, action);
         } else {
             requestToStationService.errorStationNotConnected(sender.getName());
         }
