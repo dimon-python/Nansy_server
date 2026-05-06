@@ -18,7 +18,7 @@ public class NansyServerApplication {
         return args -> {
             // Здесь можно вызывать методы
             userService.getOrCreateUser("Ольга");
-            System.out.println("✅ Тестовый пользователь создан!");
+            System.out.println("Сервер запущен успешно!");
         };
     }
 }

@@ -6,7 +6,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import java.security.Principal;
 import com.example.Nansy_server.service.RequestToStationService;
-import com.example.Nansy_server.dto.CommandRequest;
+import com.example.Nansy_server.dto.CommandRequestDto;
 
 @Controller
 public class ChatController {
@@ -19,7 +19,7 @@ public class ChatController {
     }
 
     @MessageMapping("/requestToPC")
-    public void requestToPC(@Payload CommandRequest request, Principal sender) {
+    public void requestToPC(@Payload CommandRequestDto request, Principal sender) {
         String recipient = request.getRecipient();
         String action = request.getAction();
 

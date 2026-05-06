@@ -2,17 +2,17 @@ package com.example.Nansy_server.dto;
 
 import org.springframework.messaging.handler.annotation.Payload;
 
-public class CommandRequest {
-    private Long commandId;
+public class CommandRequestDto {
+    private String commandId;
     private String recipient;
     private String sender;
     private String action;
     private Payload payload;
 
-    public Long getCommandId() {
+    public String getCommandId() {
         return commandId;
     }
-    public void setCommandId(Long commandId) {
+    public void setCommandId(String commandId) {
         this.commandId = commandId;
     }
 
