@@ -4,6 +4,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+
 import java.security.Principal;
 import com.example.Nansy_server.service.RequestToStationService;
 import com.example.Nansy_server.dto.CommandRequestDto;
@@ -12,10 +14,12 @@ import com.example.Nansy_server.dto.CommandRequestDto;
 public class ChatController {
 
     private final RequestToStationService requestToStationService;
+    private final SimpMessagingTemplate messagingTemplate;
 
     @Autowired
-    public ChatController(RequestToStationService requestToStationService) {
+    public ChatController(RequestToStationService requestToStationService, SimpMessagingTemplate messagingTemplate) {
         this.requestToStationService = requestToStationService;
+        this.messagingTemplate = messagingTemplate;
     }
 
     @MessageMapping("/requestToPC")
@@ -28,5 +32,10 @@ public class ChatController {
         } else {
             requestToStationService.errorStationNotConnected(sender.getName());
         }
+    }
+
+    @MessageMapping("/echo")
+    public void echo(String message) {
+        messagingTemplate.convertAndSend("/topic/echo", message);
     }
 }
