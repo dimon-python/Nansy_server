@@ -17,17 +17,25 @@ public class AuthController {
     
     
     @PostMapping("/login")  
-    public AuthResponse login(@RequestBody LoginRequest request) {
+    public TokenResponse login(@RequestBody LoginRequest request) {
         
         userService.getOrCreateUser(request.getUsername());
-        
         
         String token = jwtUtil.generateToken(request.getUsername());
         
         System.out.println("🔐 User logged in: " + request.getUsername() + ", token generated");
         
-        
-        return new AuthResponse(token, request.getUsername());
+        return new TokenResponse(token, request.getUsername());
+    }
+
+    @PostMapping("/register")
+    public void register() {
+
+    }
+
+    @PostMapping("/verify")
+    public void verify() {
+
     }
     
 
@@ -38,11 +46,11 @@ public class AuthController {
         public void setUsername(String username) { this.username = username; }
     }
     
-    static class AuthResponse {
-        private String token;      
+    static class TokenResponse {
+        private String token;
         private String username;
         
-        public AuthResponse(String token, String username) {
+        public TokenResponse(String token, String username) {
             this.token = token;
             this.username = username;
         }
