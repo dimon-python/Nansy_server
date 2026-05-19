@@ -2,6 +2,7 @@ package com.example.Nansy_server.interceptor;
 
 import com.example.Nansy_server.util.JwtUtil;              // Наш утилитный класс для JWT
 import org.springframework.beans.factory.annotation.Autowired; // Внедрение зависимостей
+import org.springframework.http.HttpStatus;
 import org.springframework.http.server.ServerHttpRequest;     // HTTP запрос (для handshake)
 import org.springframework.http.server.ServerHttpResponse;    // HTTP ответ
 import org.springframework.http.server.ServletServerHttpRequest; // Для доступа к параметрам URL
@@ -47,6 +48,7 @@ public class JwtHandshakeInterceptor implements HandshakeInterceptor {
         }
         
         // 7. Токен невалиден или отсутствует - отклоняем подключение
+        response.setStatusCode(HttpStatus.UNAUTHORIZED);
         System.out.println("❌ WebSocket handshake REJECTED: invalid or missing JWT");
         return false;
     }
