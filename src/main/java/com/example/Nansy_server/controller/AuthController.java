@@ -32,13 +32,7 @@ public class AuthController {
     public void register() {
 
     }
-
-    @PostMapping("/verify")
-    public void verify() {
-
-    }
     
-
     static class LoginRequest {
         private String username;  
         
