@@ -6,6 +6,8 @@ import com.example.Nansy_server.model.UserModel;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import com.example.Nansy_server.repository.UserRepository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,15 +18,23 @@ public class UserService {
     private final UserRepository userRepository;
 
     @Autowired
+    private PasswordEncoder encoder;
+
+    @Autowired
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
-    public UserModel createTestUser() {
-        UserModel user = new UserModel();
-        user.setUsername("Ольга");
+    public boolean loginUser(String username, String password) {
+        Optional<UserModel> existingUser = userRepository.findByUsername(username);
 
-        return userRepository.save(user);
+        if (existingUser.isPresent()) {
+            UserModel user = existingUser.get();
+            String savedHash = user.getPassword();
+            return encoder.matches(password, savedHash);
+        } else {
+            return false;
+        }
     }
 
     public UserModel getOrCreateUser(String username) {

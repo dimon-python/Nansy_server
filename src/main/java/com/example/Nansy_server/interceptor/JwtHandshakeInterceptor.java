@@ -1,31 +1,30 @@
 package com.example.Nansy_server.interceptor;
 
-import com.example.Nansy_server.util.JwtUtil;              // Наш утилитный класс для JWT
-import org.springframework.beans.factory.annotation.Autowired; // Внедрение зависимостей
+import com.example.Nansy_server.util.JwtUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.server.ServerHttpRequest;     // HTTP запрос (для handshake)
-import org.springframework.http.server.ServerHttpResponse;    // HTTP ответ
-import org.springframework.http.server.ServletServerHttpRequest; // Для доступа к параметрам URL
-import org.springframework.stereotype.Component;               // Регистрация как Spring Bean
-import org.springframework.web.socket.WebSocketHandler;       // Обработчик WebSocket
-import org.springframework.web.socket.server.HandshakeInterceptor; // Интерфейс перехватчика
+import org.springframework.http.server.ServerHttpRequest; 
+import org.springframework.http.server.ServerHttpResponse;  
+import org.springframework.http.server.ServletServerHttpRequest;
+import org.springframework.stereotype.Component;
+import org.springframework.web.socket.WebSocketHandler;    
+import org.springframework.web.socket.server.HandshakeInterceptor;
 
-import java.util.Map;  // Для передачи атрибутов в WebSocket сессию
+import java.util.Map; 
 
-@Component  // Регистрируем как Spring компонент
+@Component 
 public class JwtHandshakeInterceptor implements HandshakeInterceptor {
     
-    @Autowired  // Внедряем JwtUtil для работы с токенами
+    @Autowired 
     private JwtUtil jwtUtil;
     
-    // Вызывается ДО установки WebSocket соединения (на этапе HTTP handshake)
+    
     @Override
-    public boolean beforeHandshake(ServerHttpRequest request,        // HTTP запрос handshake
-                                   ServerHttpResponse response,      // HTTP ответ
-                                   WebSocketHandler wsHandler,       // Обработчик WebSocket
-                                   Map<String, Object> attributes) { // Атрибуты WebSocket сессии
+    public boolean beforeHandshake(ServerHttpRequest request, 
+                                   ServerHttpResponse response,
+                                   WebSocketHandler wsHandler, 
+                                   Map<String, Object> attributes) {
             
-        // 1. Извлекаем JWT токен из запроса
         String token = extractToken(request);
         
         // 2. Проверяем: токен существует и валиден
