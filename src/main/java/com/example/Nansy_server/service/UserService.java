@@ -26,28 +26,25 @@ public class UserService {
     }
 
     public boolean loginUser(String username, String password) {
-        Optional<UserModel> existingUser = userRepository.findByUsername(username);
-
-        if (existingUser.isPresent()) {
-            UserModel user = existingUser.get();
-            String savedHash = user.getPassword();
-            return encoder.matches(password, savedHash);
-        } else {
-            return false;
-        }
+    return userRepository.findByUsername(username)
+        .map(user -> encoder.matches(password, user.getPassword()))
+        .orElse(false);
     }
 
-    public UserModel getOrCreateUser(String username) {
-        Optional<UserModel> existingUser = userRepository.findByUsername(username);
-
-        if (existingUser.isPresent()) { 
-            System.out.println("Пользователь найден");
-            return existingUser.get();
+    private UserModel createUser(String username, String password) {
+        UserModel user = new UserModel();
+        user.setUsername(username);
+        String hashPassword = encoder.encode(password);
+        user.setPassword(hashPassword);
+        return userRepository.save(user);
+    }
+    
+    public boolean registerUser(String username, String password) {
+        if (userRepository.findByUsername(username).isPresent()) {
+            return false;
+        } else {
+            createUser(username, password);
+            return true;
         }
-
-        UserModel newUser = new UserModel();
-        newUser.setUsername(username);
-
-        return userRepository.save(newUser);
     }
 }

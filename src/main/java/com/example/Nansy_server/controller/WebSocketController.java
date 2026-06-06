@@ -11,13 +11,13 @@ import com.example.Nansy_server.service.RequestToStationService;
 import com.example.Nansy_server.dto.CommandRequestDto;
 
 @Controller
-public class ChatController {
+public class WebSocketController {
 
     private final RequestToStationService requestToStationService;
     private final SimpMessagingTemplate messagingTemplate;
 
     @Autowired
-    public ChatController(RequestToStationService requestToStationService, SimpMessagingTemplate messagingTemplate) {
+    public WebSocketController(RequestToStationService requestToStationService, SimpMessagingTemplate messagingTemplate) {
         this.requestToStationService = requestToStationService;
         this.messagingTemplate = messagingTemplate;
     }

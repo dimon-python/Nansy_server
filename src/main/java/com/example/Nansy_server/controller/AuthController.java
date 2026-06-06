@@ -30,8 +30,13 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public void register() {
+    public ResponseEntity<?> register(@RequestBody LoginRequest request) {
+        boolean registerStatus = userService.registerUser(request.getUsername(), request.getPassword());
 
+        if (registerStatus == true) {
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.status(401).build();
     }
     
     static class LoginRequest {
