@@ -38,6 +38,15 @@ public class AuthController {
         }
         return ResponseEntity.status(401).build();
     }
+
+    @PostMapping("/verify")
+    public ResponseEntity<?> verify(@RequestBody VerifyRequest request) {
+        if (jwtUtil.validateToken(request.getToken())) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(401).build();
+        }
+    }
     
     static class LoginRequest {
         private String username;  
@@ -68,5 +77,15 @@ public class AuthController {
         
         public String getToken() { return token; }
         public String getUsername() { return username; }
+    }
+
+    static class VerifyRequest {
+        private String token;
+
+        public VerifyRequest(String token) {
+            this.token = token;
+        }
+        
+        public String getToken() { return token; }
     }
 }

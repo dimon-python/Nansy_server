@@ -3,8 +3,6 @@ package com.example.Nansy_server.service;
 import org.springframework.stereotype.Service;
 import com.example.Nansy_server.model.UserModel;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
