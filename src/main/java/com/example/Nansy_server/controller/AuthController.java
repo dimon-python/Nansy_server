@@ -15,7 +15,11 @@ public class AuthController {
     
     @Autowired  
     private UserService userService;
-    
+
+    @GetMapping("/check")
+    public ResponseEntity<?> checkConnection() {
+        return ResponseEntity.ok().build();
+    }
     
     @PostMapping("/login")  
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
