@@ -2,6 +2,7 @@ package com.example.Nansy_server.config;
 
 import org.springframework.context.annotation.Bean;               // Для создания бинов
 import org.springframework.context.annotation.Configuration;      // Помечаем как конфигурационный класс
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity; // Строитель конфигурации
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity; // Включаем Security
 import org.springframework.security.config.http.SessionCreationPolicy; // Политика создания сессий
@@ -37,6 +38,7 @@ public class SecurityConfig {
                 
                 // Разрешаем доступ к эндпоинту /auth/** (логин, регистрация)
                 .requestMatchers("/auth/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/auth/check").permitAll()
                 
                 // ВСЕ остальные URL требуют аутентификации (наличия валидного JWT)
                 .anyRequest().authenticated()

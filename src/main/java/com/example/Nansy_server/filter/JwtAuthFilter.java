@@ -31,11 +31,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                                     HttpServletResponse response, // Исходящий ответ
                                     FilterChain filterChain)      // Цепочка следующих фильтров
             throws ServletException, IOException {
-        String requestURI = request.getRequestURI();
-        if (requestURI.equals("/auth/login") || requestURI.equals("/auth/check")) {
-            filterChain.doFilter(request, response);
-            return;
-        }
         
         // 1. Получаем заголовок Authorization из HTTP запроса
         String authHeader = request.getHeader("Authorization");
